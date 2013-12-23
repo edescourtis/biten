@@ -5,7 +5,26 @@
 %%% --------------------------------------------------------------------------
 
 -module(protocol).
--compile([export_all]).
+%-compile([export_all]).
+
+-export ([
+	version_msg/0,
+	get_message/1,
+	parse_header/1,
+	parse_headers/1,
+	verack_msg/0,
+	addr_msg/0,
+	getheaders_msg/2,
+	parse_inv/1,
+	prev_block_header/1,
+	parse_block_header/1,
+	getdata_msg/1,
+	inv_msg/1,
+	parse_addr/1,
+	parse_getdata/1,
+	tx_msg/1
+
+	]).
 
 -include("include/records.hrl").
 
