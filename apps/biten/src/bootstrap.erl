@@ -12,7 +12,17 @@
 -export([start_link/0, stop/0]).
 
 %% gen_server callbacks
--export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
+-export([
+		init/1, 
+		handle_call/3, 
+		handle_cast/2, 
+		handle_info/2, 
+		terminate/2, 
+		code_change/3,
+
+		%% for tests only
+		get_addrs_ipv4_dns/0
+	]).
 
 %% Use module name for registered process
 -define(SERVER, ?MODULE).
@@ -75,14 +85,8 @@ get_addrs_ipv4_dns() ->
     lists:flatten([nslookup_ipv4(A) || A <- L]).
 
 nslookup_ipv4(Addr) ->
-    Type = a,
-    Class = in,
-    case inet_res:resolve(Addr, Class, Type) of
-        {ok,Msg} ->
-            [inet_dns:rr(RR, data) ||
-                RR <- inet_dns:msg(Msg, anlist),
-                inet_dns:rr(RR, type) =:= Type,
-                inet_dns:rr(RR, class) =:= Class];
-        {error,_} ->
-            []
-    end.
+	case inet:getaddrs(Addr,inet) of
+		{ok,IpList} ->
+			IpList;
+		{error,_} ->
+	end.
