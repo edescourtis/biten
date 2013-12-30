@@ -89,4 +89,5 @@ nslookup_ipv4(Addr) ->
 		{ok,IpList} ->
 			IpList;
 		{error,_} ->
+			[]
 	end.
